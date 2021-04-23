@@ -3,56 +3,67 @@
 
 char **ft_split(char const *s, char c)
 {
-	unsigned int i;
-	unsigned int n;
-	unsigned int j;
-	unsigned int len;
-	unsigned int slen;
-	char *p_beg;
-	char *p_end;
-	char **p;
+	char *begin;
+	int i;
+	int count;
+	char **dst;
+	int j;
+	int k;
+	int num;
 
-	slen = ft_strlen(s);
-	i = 0;
-	p = malloc(sizeof(s)*(ft_strlen(s)+1));
-	n = 0;
+	while(s[i] == c)
+		i++;
+	if (s[i] != '\0')
+		begin = (char *) &s[i];
+	else
+		return ((char **)'\0');
+	count = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] == c)
+		if ((s[i] != c) && (i == 0 || (s[i - 1] == c)))
 		{
-			n++;			//знаем, сколько раз встречается делитель
+			count += 1;
 			i++;
 		}
 		else
 			i++;
 	}
-	p = malloc (sizeof(p)*(n+2));
-	i = 0;
-	n = 0;
+	dst = malloc(sizeof(dst) * (count+1));
+	if (!dst)
+		return ((char **)'\0');
+	num = 0;
 	j = 0;
-	while (i < slen)
-	{
-		if(s[i] != c)
-		{
-			p[0] = (char *)&s[i];
-			break;						//Поставили самый первый указатель
-		}
-		i++;
-	}
+	k = 0;
 	i = 0;
-	while(i < slen)
+	while (begin[i] != '\0')
 	{
-		if (s[i] == c)
-		{
-			len = i-n;
-			n = i+1;
-		}
+		if(begin[i] != c)
+			num++;
+		else
+			if (begin[i] == c && begin[i-1] != c)
+			{
+				dst[j] = malloc(sizeof(dst[j])*(num + 1));
+				if (!dst[j])
+					free(dst);
+				while(k < num)
+				{
+					dst[j][k] = begin[i-num+k];
+					k++;
+				}
+			}
+			else
+				if (begin[i] == c && begin[i-1] == c)
+				{
+					dst[j][k] = '\0';
+					j++;
+					num = 0;
+					k = 0;
+				}
 		i++;
 	}
-	if (n == 0)
-	{
-		p[0] = (char *) &s[0];
-		p[1] = (char *) '\0';
-	}
-
+	dst[count] = malloc(sizeof(dst[count]) * 1);
+	if (!dst[count])
+		free(dst);
+	dst[count][0] = '\0';
+	return (dst);
 }
