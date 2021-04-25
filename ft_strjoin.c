@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include "libft.h"
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned int len_s1;
-	unsigned int len_s2;
-	unsigned int i;
-	char *new_s;
+	unsigned int	len_s1;
+	unsigned int	len_s2;
+	unsigned int	i;
+	char			*new_s;
 
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
